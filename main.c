@@ -87,11 +87,20 @@ int main(int argc, char **argv)
 
 	char* image_location;
 	long int location_length;
+    char * output_name;
+    char * output_prefix = "fried_";
 
 	if(argc > 1)
 	{
 		image_location = argv[1];
 		location_length = strlen(argv[1]);
+        if(argc > 2) {
+            output_name = argv[2];
+        } else {
+            output_name = malloc(strlen(output_prefix)+location_length+1);
+            strcpy(output_name, output_prefix);
+            strcat(output_name, image_location);
+        }
 	}
 	else
 	{
@@ -269,7 +278,7 @@ int main(int argc, char **argv)
 	base = AddNoiseImage(parser_image, GaussianNoise, exception);
 	DestroyImage(parser_image);
 	//finally export
-	WriteImages(base_info, base, "deepfry_output.png", exception);
+	WriteImages(base_info, base, output_name, exception);
 	DestroyImage(base);
 	MagickCoreTerminus();//we done
 	return 0;
